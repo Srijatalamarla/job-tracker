@@ -5,45 +5,45 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class JobController {
 
-    private final JobRepository jobRepository;
+    private final JobService jobService;
 
-    public JobController(JobRepository jobRepository) {
-        this.jobRepository = jobRepository;
+    public JobController(JobService jobService) {
+        this.jobService = jobService;
     }
 
     @GetMapping("/jobs")
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+    public List<JobResponseDTO> getAllJobs() {
+        return jobService.getAllJobs();
     }
 
     @PostMapping("/jobs")
-    public ResponseEntity<Job> postJob(@RequestBody Job job) {
-        jobRepository.save(job);
+    public ResponseEntity<JobResponseDTO> postJob(@RequestBody JobRequestDTO jobRequest) {
+        JobResponseDTO job = jobService.postJob(jobRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(job);
     }
 
     @GetMapping("/jobs/{id}")
-    public ResponseEntity<Job> getJob(@PathVariable Long id) {
-        Optional<Job> tempJob = jobRepository.findById(id);
-
-        if (tempJob.isEmpty()) {
+    public ResponseEntity<JobResponseDTO> getJob(@PathVariable Long id) {
+        JobResponseDTO tempJob;
+        try {
+            tempJob = jobService.getJob(id);
+        }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(tempJob.get());
+        return ResponseEntity.status(HttpStatus.OK).body(tempJob);
     }
 
     @DeleteMapping("/jobs/{id}")
-    public ResponseEntity<Job> deleteJob(@PathVariable Long id) {
-        Optional<Job> tempJob = jobRepository.findById(id);
-        if (tempJob.isEmpty()) {
+    public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
+        try {
+            jobService.deleteJob(id);
+        }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        jobRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
