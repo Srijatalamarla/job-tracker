@@ -4,52 +4,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class JobController {
-    private Long idCounter = 1L;
-    private List<Job> jobs = new ArrayList<>();
+
+    private final JobRepository jobRepository;
+
+    public JobController(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
 
     @GetMapping("/jobs")
     public List<Job> getAllJobs() {
-        return jobs;
+        return jobRepository.findAll();
     }
 
     @PostMapping("/jobs")
     public ResponseEntity<Job> postJob(@RequestBody Job job) {
-        job.setId(idCounter++);
-        jobs.add(job);
+        jobRepository.save(job);
         return ResponseEntity.status(HttpStatus.CREATED).body(job);
     }
 
     @GetMapping("/jobs/{id}")
     public ResponseEntity<Job> getJob(@PathVariable Long id) {
-        Job tempJob = null;
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                tempJob = job;
-            }
-        }
-        if (tempJob == null) {
+        Optional<Job> tempJob = jobRepository.findById(id);
+
+        if (tempJob.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(tempJob);
+        return ResponseEntity.status(HttpStatus.OK).body(tempJob.get());
     }
 
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Job> deleteJob(@PathVariable Long id) {
-        Job tempJob = null;
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                tempJob = job;
-            }
-        }
-        if (tempJob == null) {
+        Optional<Job> tempJob = jobRepository.findById(id);
+        if (tempJob.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        jobs.remove(tempJob);
+        jobRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -1,10 +1,20 @@
 package com.jobtracker;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Job {
+    @Id
+    @GeneratedValue
     private Long id;
     private String companyName;
     private String jobTitle;
     private String status;
+
+
+    public Job() {}
 
     public Job(String companyName, String jobTitle, String status) {
         this.companyName = companyName;
