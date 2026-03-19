@@ -1,5 +1,6 @@
 package com.jobtracker;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,29 +22,19 @@ public class JobController {
     }
 
     @PostMapping("/jobs")
-    public ResponseEntity<JobResponseDTO> postJob(@RequestBody JobRequestDTO jobRequest) {
+    public ResponseEntity<JobResponseDTO> postJob(@RequestBody @Valid JobRequestDTO jobRequest) {
         JobResponseDTO job = jobService.postJob(jobRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(job);
     }
 
     @GetMapping("/jobs/{id}")
     public ResponseEntity<JobResponseDTO> getJob(@PathVariable Long id) {
-        JobResponseDTO tempJob;
-        try {
-            tempJob = jobService.getJob(id);
-        }catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(tempJob);
+        return ResponseEntity.ok(jobService.getJob(id));
     }
 
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
-        try {
-            jobService.deleteJob(id);
-        }catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        jobService.deleteJob(id);
+        return ResponseEntity.noContent().build();
     }
 }
