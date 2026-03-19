@@ -1,8 +1,14 @@
 package com.jobtracker;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class JobRequestDTO {
+
+    @NotBlank
     private String companyName;
+    @NotBlank
     private String jobTitle;
+    @NotBlank
     private String status;
 
     public JobRequestDTO() {}
