@@ -29,8 +29,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleNotFoundErrors(RuntimeException e) {
+    @ExceptionHandler(JobNotFoundException.class)
+    public ResponseEntity<String> handleNotFoundErrors(JobNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeErrors(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }

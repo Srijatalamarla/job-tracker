@@ -53,7 +53,7 @@ public class JobService {
         Optional<Job> tempJob = jobRepository.findById(id);
 
         if (tempJob.isEmpty()) {
-            throw new RuntimeException("NOT FOUND");
+            throw new JobNotFoundException(id);
         }
         return toJobResponseDTO(tempJob.get());
     }
@@ -61,7 +61,7 @@ public class JobService {
     public void deleteJob(Long id) {
         Optional<Job> tempJob = jobRepository.findById(id);
         if (tempJob.isEmpty()) {
-            throw new RuntimeException("NOT FOUND");
+            throw new JobNotFoundException(id);
         }
         jobRepository.deleteById(id);
     }
