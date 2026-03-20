@@ -2,14 +2,16 @@ package com.jobtracker.dto;
 
 public class JobResponseDTO {
     private Long id;
+    private Long userId;
     private String companyName;
     private String jobTitle;
     private String status;
 
     public JobResponseDTO() {}
 
-    public JobResponseDTO(Long id, String companyName, String jobTitle, String status) {
+    public JobResponseDTO(Long id, Long userId, String companyName, String jobTitle, String status) {
         this.id = id;
+        this.userId = userId;
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;
@@ -17,6 +19,10 @@ public class JobResponseDTO {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public String getCompanyName() {
@@ -33,6 +39,10 @@ public class JobResponseDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void setCompanyName(String companyName) {

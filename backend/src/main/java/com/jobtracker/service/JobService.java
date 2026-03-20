@@ -1,13 +1,14 @@
 package com.jobtracker.service;
 
+import com.jobtracker.entity.User;
 import com.jobtracker.exception.JobNotFoundException;
 import com.jobtracker.repository.JobRepository;
 import com.jobtracker.dto.JobRequestDTO;
 import com.jobtracker.dto.JobResponseDTO;
 import com.jobtracker.entity.Job;
+import com.jobtracker.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,14 +16,17 @@ import java.util.Optional;
 public class JobService {
 
     private final JobRepository jobRepository;
+    private final UserRepository userRepository;
 
-    public JobService(JobRepository jobRepository) {
+    public JobService(JobRepository jobRepository, UserRepository userRepository) {
         this.jobRepository = jobRepository;
+        this.userRepository = userRepository;
     }
 
     private JobResponseDTO toJobResponseDTO(Job job) {
         JobResponseDTO dto = new JobResponseDTO();
         dto.setId(job.getId());
+        dto.setUserId(job.getUser().getId());
         dto.setCompanyName(job.getCompanyName());
         dto.setJobTitle(job.getJobTitle());
         dto.setStatus(job.getStatus());
@@ -32,6 +36,9 @@ public class JobService {
 
     private Job toJob (JobRequestDTO jobRequest) {
         Job job = new Job();
+        User user = userRepository.findById(jobRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + jobRequest.getUserId()));
+        job.setUser(user);
         job.setCompanyName(jobRequest.getCompanyName());
         job.setJobTitle(jobRequest.getJobTitle());
         job.setStatus(jobRequest.getStatus());
@@ -40,12 +47,10 @@ public class JobService {
     }
 
     public List<JobResponseDTO> getAllJobs() {
-        List<JobResponseDTO> jobs = new ArrayList<>();
-        List<Job> tempJobs = jobRepository.findAll();
-        for(Job job : tempJobs) {
-            jobs.add(toJobResponseDTO(job));
-        }
-        return jobs;
+        return jobRepository.findAll()
+                            .stream()
+                            .map(this::toJobResponseDTO)
+                            .toList();
     }
 
     public JobResponseDTO postJob(JobRequestDTO jobRequest) {
@@ -64,10 +69,8 @@ public class JobService {
     }
 
     public void deleteJob(Long id) {
-        Optional<Job> tempJob = jobRepository.findById(id);
-        if (tempJob.isEmpty()) {
-            throw new JobNotFoundException(id);
-        }
-        jobRepository.deleteById(id);
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new JobNotFoundException(id));
+        jobRepository.delete(job);
     }
 }
