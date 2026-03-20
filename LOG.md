@@ -88,9 +88,11 @@
     - one to many replationship from user to job
     - many to one relationship from job to user
 - Added user request and response DTOs
+- Added user controller and service layers
 
 **Where I got stuck:** 
 - AI suggested to add @JsonIgnore to jobs list in User entity
+- ```Cannot invoke "java.util.List.stream()" because the return value of "com.jobtracker.entity.User.getJobs()" is null```  - when POST user
 
 **What clicked:**
 - Understanding Jackson working - makes @JsonIgnore necessary
@@ -111,6 +113,22 @@
 
         You'll only ever expose jobs through JobResponseDTO which already maps exactly what you want. You never need User.jobs to appear in JSON directly.
 
+      ```
+- Saving and agin retrieving from DB works
+    - Reason
+      ```
+        - What: 
+            After save(), instead of mapping the in-memory newUser object directly, you fetch the saved user back from the database with findById() and map that instead.
+        
+        - Why the in-memory object has null jobs:
+            When you do User newUser = toUser(userRequest), you create a plain Java object. Its jobs field is initialized as new ArrayList<>() in the entity — correct. But save() returns a new object that JPA manages. At this point the jobs field on that managed object is null because JPA hasn't populated it — there's no database query to load it yet since you just created the user and lazy loading hasn't been triggered.
+            
+            When you call user.getJobs().stream() on that object — null pointer.
+        
+        - Why re-fetching fixes it:
+            findById() loads a fresh managed entity from the database. At that point jobs is an empty list [] not null — JPA knows this user exists and initializes the collection properly even though it's empty.
+        
+        - The broader lesson: Never trust the in-memory state of a JPA entity after save() for relationships. Always re-fetch if you need the full object back. This is a mistake almost every JPA beginner makes.
       ```
 
 

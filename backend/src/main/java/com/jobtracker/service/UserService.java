@@ -48,7 +48,7 @@ public class UserService {
 
     public UserResponseDTO postUser(UserRequestDTO userRequest) {
         User newUser = toUser(userRequest);
-        userRepository.save(newUser);
-        return toUserResponseDTO(newUser);
+        User savedUser = userRepository.save(newUser);
+        return toUserResponseDTO(userRepository.findById(savedUser.getId()).orElseThrow());
     }
 }
