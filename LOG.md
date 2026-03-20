@@ -130,6 +130,7 @@
         
         - The broader lesson: Never trust the in-memory state of a JPA entity after save() for relationships. Always re-fetch if you need the full object back. This is a mistake almost every JPA beginner makes.
       ```
+    - Actual fix: missing initialization in User entity
 
 
 **Identified bugs:**
