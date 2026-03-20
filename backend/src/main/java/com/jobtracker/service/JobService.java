@@ -55,8 +55,8 @@ public class JobService {
 
     public JobResponseDTO postJob(JobRequestDTO jobRequest) {
         Job job = toJob(jobRequest);
-        jobRepository.save(job);
-        return toJobResponseDTO(job);
+        Job savedJob = jobRepository.save(job);
+        return toJobResponseDTO(jobRepository.findById(savedJob.getId()).orElseThrow());
     }
 
     public JobResponseDTO getJob(Long id) {
