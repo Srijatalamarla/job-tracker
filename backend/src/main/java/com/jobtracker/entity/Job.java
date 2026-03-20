@@ -11,13 +11,18 @@ public class Job {
     private String jobTitle;
     private String status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public Job() {}
 
-    public Job(String companyName, String jobTitle, String status) {
+    public Job(String companyName, String jobTitle, String status, User user) {
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;
+        this.user = user;
     }
 
     public Long getId() {
@@ -36,6 +41,10 @@ public class Job {
         return status;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -50,5 +59,9 @@ public class Job {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
