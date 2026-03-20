@@ -1,22 +1,22 @@
-package com.jobtracker;
+package com.jobtracker.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
-public class JobRequestDTO {
-
-    @NotBlank
+public class JobResponseDTO {
+    private Long id;
     private String companyName;
-    @NotBlank
     private String jobTitle;
-    @NotBlank
     private String status;
 
-    public JobRequestDTO() {}
+    public JobResponseDTO() {}
 
-    public JobRequestDTO(String companyName, String jobTitle, String status) {
+    public JobResponseDTO(Long id, String companyName, String jobTitle, String status) {
+        this.id = id;
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCompanyName() {
@@ -29,6 +29,10 @@ public class JobRequestDTO {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setCompanyName(String companyName) {

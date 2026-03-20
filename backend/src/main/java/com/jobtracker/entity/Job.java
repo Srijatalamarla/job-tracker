@@ -1,15 +1,20 @@
-package com.jobtracker;
+package com.jobtracker.entity;
 
-public class JobResponseDTO {
+import jakarta.persistence.*;
+
+@Entity
+public class Job {
+    @Id
+    @GeneratedValue
     private Long id;
     private String companyName;
     private String jobTitle;
     private String status;
 
-    public JobResponseDTO() {}
 
-    public JobResponseDTO(Long id, String companyName, String jobTitle, String status) {
-        this.id = id;
+    public Job() {}
+
+    public Job(String companyName, String jobTitle, String status) {
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;

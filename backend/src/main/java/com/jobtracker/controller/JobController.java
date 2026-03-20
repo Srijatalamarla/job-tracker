@@ -1,5 +1,8 @@
-package com.jobtracker;
+package com.jobtracker.controller;
 
+import com.jobtracker.dto.JobRequestDTO;
+import com.jobtracker.dto.JobResponseDTO;
+import com.jobtracker.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

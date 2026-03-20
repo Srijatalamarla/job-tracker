@@ -1,4 +1,4 @@
-package com.jobtracker;
+package com.jobtracker.exception;
 
 public class JobNotFoundException extends RuntimeException{
     public JobNotFoundException(Long id) {

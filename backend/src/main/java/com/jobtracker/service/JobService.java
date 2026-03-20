@@ -1,5 +1,10 @@
-package com.jobtracker;
+package com.jobtracker.service;
 
+import com.jobtracker.exception.JobNotFoundException;
+import com.jobtracker.repository.JobRepository;
+import com.jobtracker.dto.JobRequestDTO;
+import com.jobtracker.dto.JobResponseDTO;
+import com.jobtracker.entity.Job;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

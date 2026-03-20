@@ -1,29 +1,22 @@
-package com.jobtracker;
+package com.jobtracker.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-public class Job {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class JobRequestDTO {
+
+    @NotBlank
     private String companyName;
+    @NotBlank
     private String jobTitle;
+    @NotBlank
     private String status;
 
+    public JobRequestDTO() {}
 
-    public Job() {}
-
-    public Job(String companyName, String jobTitle, String status) {
+    public JobRequestDTO(String companyName, String jobTitle, String status) {
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getCompanyName() {
@@ -36,10 +29,6 @@ public class Job {
 
     public String getStatus() {
         return status;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setCompanyName(String companyName) {
