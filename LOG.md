@@ -150,6 +150,7 @@
 
 **What I built:**
 - New UserNotFound Exception instead of RuntimeException
+- Auth controller - to register and login (with JWT)
 
 **Where I got stuck:**
 
