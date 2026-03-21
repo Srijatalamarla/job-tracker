@@ -150,7 +150,9 @@
 
 **What I built:**
 - New UserNotFound Exception instead of RuntimeException
-- Auth controller - to register and login (with JWT)
+- Auth controller - to register and login (with JWT) and returns token
+- jwtAuthFilter - intercepts every request, reads token, loads user, puts identity into SecurityContextHolder
+- SecurityConfig - permits only register and login without auth, sessions are stateless, registers jwtAuthFilter, returns 401 when no token
 
 **Where I got stuck:**
 
