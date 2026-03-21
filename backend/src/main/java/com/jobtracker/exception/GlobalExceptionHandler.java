@@ -50,6 +50,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 
+    @ExceptionHandler(UserForbiddenJobException.class)
+    public ResponseEntity<String> handleForbiddenJob(UserForbiddenJobException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeErrors(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

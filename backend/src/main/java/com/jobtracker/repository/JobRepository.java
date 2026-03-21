@@ -1,7 +1,11 @@
 package com.jobtracker.repository;
 
 import com.jobtracker.entity.Job;
+import com.jobtracker.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface JobRepository extends JpaRepository<Job, Long> {
+    List<Job> findByUser(User user);
 }

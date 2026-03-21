@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class JobRequestDTO {
 
-    @NotNull
-    private Long userId;
     @NotBlank
     private String companyName;
     @NotBlank
@@ -16,15 +14,10 @@ public class JobRequestDTO {
 
     public JobRequestDTO() {}
 
-    public JobRequestDTO(Long userId, String companyName, String jobTitle, String status) {
-        this.userId = userId;
+    public JobRequestDTO(String companyName, String jobTitle, String status) {
         this.companyName = companyName;
         this.jobTitle = jobTitle;
         this.status = status;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     public String getCompanyName() {
@@ -37,10 +30,6 @@ public class JobRequestDTO {
 
     public String getStatus() {
         return status;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public void setCompanyName(String companyName) {
