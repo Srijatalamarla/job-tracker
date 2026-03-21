@@ -14,6 +14,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String password;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -22,9 +23,10 @@ public class User {
 
     public User() {}
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
@@ -43,6 +45,10 @@ public class User {
         return jobs;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -57,5 +63,9 @@ public class User {
 
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
