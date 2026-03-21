@@ -31,7 +31,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(JobNotFoundException.class)
-    public ResponseEntity<String> handleNotFoundErrors(JobNotFoundException e) {
+    public ResponseEntity<String> handleJobNotFoundError(JobNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundError(UserNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 

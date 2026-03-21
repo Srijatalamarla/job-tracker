@@ -149,6 +149,7 @@
 
 
 **What I built:**
+- New UserNotFound Exception instead of RuntimeException
 
 **Where I got stuck:**
 

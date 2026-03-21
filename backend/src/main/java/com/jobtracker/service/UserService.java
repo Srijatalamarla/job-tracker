@@ -4,8 +4,10 @@ import com.jobtracker.dto.JobResponseDTO;
 import com.jobtracker.dto.UserRequestDTO;
 import com.jobtracker.dto.UserResponseDTO;
 import com.jobtracker.entity.User;
+import com.jobtracker.exception.UserNotFoundException;
 import com.jobtracker.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -40,12 +42,13 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public UserResponseDTO getUser(Long id) {
         return userRepository.findById(id)
-                .map(this::toUserResponseDTO)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .map(this::toUserResponseDTO).orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    @Transactional
     public UserResponseDTO postUser(UserRequestDTO userRequest) {
         User newUser = toUser(userRequest);
         User savedUser = userRepository.save(newUser);
