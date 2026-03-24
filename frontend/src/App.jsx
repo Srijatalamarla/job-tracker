@@ -1,4 +1,4 @@
-import JobCard from "./components/JobCard"
+import JobList from "./components/JobList"
 
 export default function App() {
 
@@ -25,12 +25,10 @@ export default function App() {
 
   return (
     <>
-      {jobs.map((job) => (
-        <JobCard 
-          key = {job.id}
-          job = {job}
-        />
-      ))}
+      <div>
+        <h1 className="text-2xl flex justify-center p-4">Job Tracker</h1>
+      </div>
+     <JobList jobs={jobs} />
     </>
   )
 }
