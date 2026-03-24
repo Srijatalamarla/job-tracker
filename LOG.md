@@ -155,9 +155,13 @@
 - SecurityConfig - permits only register and login without auth, sessions are stateless, registers jwtAuthFilter, returns 401 when no token
 - Updated methods in job service to get user from security context ( using jwt token ) without the need of user id
 
+- Deployed on Railway
+
 **Where I got stuck:**
+- Required some way to build the application on railway server automatically
 
 **What clicked:**
+- Used Dockerfile to build and use JAR file to run the application
 
 ---
 
