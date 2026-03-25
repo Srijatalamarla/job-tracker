@@ -170,6 +170,10 @@
 > Login, job list, add form. API was built first — wiring UI to it last.
 
 **What I built:**
+- Integrate frontend and backend - handled cors, handled auth
+- Added Login and Register pages
+- Added AddJobForm component
+- Can register, login user and then add, delete jobs
 
 **Where I got stuck:**
 
