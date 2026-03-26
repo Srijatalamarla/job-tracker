@@ -1,7 +1,10 @@
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+                
+    const navigate = useNavigate()
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -19,9 +22,11 @@ export default function Register() {
         }
 
         axios.post('http://localhost:8080/auth/register', data)
-             .then(response => 
+             .then(response => {
                 localStorage.setItem('token', response.data.token)
-             )
+                
+                navigate('/')
+             })
              .catch(err => setError(err.message));
     }
     

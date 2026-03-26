@@ -1,7 +1,10 @@
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+    
+    const navigate = useNavigate()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -15,11 +18,13 @@ export default function Login() {
             "email": email,
             "password": password
         }
-
+        
         axios.post('http://localhost:8080/auth/login', data)
-             .then(response => 
+             .then(response => {
                 localStorage.setItem('token', response.data.token)
-             )
+
+                navigate('/')
+             })
              .catch(err => setError(err.message));
     }
     

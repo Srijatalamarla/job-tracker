@@ -174,6 +174,7 @@
 - Added Login and Register pages
 - Added AddJobForm component
 - Can register, login user and then add, delete jobs
+- Added Routing for 3 pages - login, register and Jobs
 
 **Where I got stuck:**
 
