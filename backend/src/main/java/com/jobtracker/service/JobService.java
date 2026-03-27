@@ -74,6 +74,23 @@ public class JobService {
         return toJobResponseDTO(tempJob.get());
     }
 
+    public JobResponseDTO updateJob(Long id, JobRequestDTO jobRequest) {
+        Job job = jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException(id));
+
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!job.getUser().getId().equals(currentUser.getId())) {
+            throw new UserForbiddenJobException();
+        }
+
+        job.setCompanyName(jobRequest.getCompanyName());
+        job.setJobTitle(jobRequest.getJobTitle());
+        job.setStatus(jobRequest.getStatus());
+
+        jobRepository.save(job);
+
+        return toJobResponseDTO(job);
+    }
+
     public void deleteJob(Long id) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new JobNotFoundException(id));

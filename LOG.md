@@ -175,6 +175,7 @@
 - Added AddJobForm component
 - Can register, login user and then add, delete jobs
 - Added Routing for 3 pages - login, register and Jobs
+- Added update job method
 
 **Where I got stuck:**
 - Using token as a prop and adding header for every API call

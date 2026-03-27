@@ -29,6 +29,7 @@ export default function Jobs({}) {
             />
             <JobList 
                 jobs={jobs} 
+                onJobUpdated={(updatedJob) => setJobs(prev => prev.map(j => j.id === updatedJob.id ? updatedJob : j))}
                 onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
             />       
         </>

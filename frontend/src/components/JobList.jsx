@@ -1,6 +1,6 @@
 import JobCard from "./JobCard";
 
-export default function JobList({ jobs, onJobDeleted, token }) {
+export default function JobList({ jobs, onJobUpdated, onJobDeleted }) {
     return (
         <>
             <ul className="list-none p-8">
@@ -9,7 +9,7 @@ export default function JobList({ jobs, onJobDeleted, token }) {
                         key = {job.id}
                         job = {job}
                         onJobDeleted={onJobDeleted}
-                        token={token}
+                        onJobUpdated={onJobUpdated}
                     />
                 ))}
             </ul>

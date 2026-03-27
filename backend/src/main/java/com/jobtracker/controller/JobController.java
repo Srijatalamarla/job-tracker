@@ -35,6 +35,11 @@ public class JobController {
         return ResponseEntity.ok(jobService.getJob(id));
     }
 
+    @PutMapping("/jobs/{id}")
+    public ResponseEntity<JobResponseDTO> updateJob(@PathVariable Long id, @Valid @RequestBody JobRequestDTO jobRequest) {
+        return ResponseEntity.ok(jobService.updateJob(id, jobRequest));
+    }
+
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         jobService.deleteJob(id);
