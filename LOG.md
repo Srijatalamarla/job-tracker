@@ -177,8 +177,10 @@
 - Added Routing for 3 pages - login, register and Jobs
 
 **Where I got stuck:**
+- Using token as a prop and adding header for every API call
 
 **What clicked:**
+- Using a configured axiosInstance with requesta and response interceptors
 
 ---
 

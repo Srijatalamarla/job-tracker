@@ -12,4 +12,19 @@ axiosInstance.interceptors.request.use((config) => {
     return config
 })
 
+axiosInstance.interceptors.response.use(
+    response => response,
+    error => {
+        //401 - for invalid credentials - on auth routes
+        const isAuthRoute = error.config?.url?.includes('/auth/')
+
+        //if token expires
+        if(error.response?.status === 401 && !isAuthRoute) {
+            localStorage.removeItem('token')
+            window.location.href = '/login'
+        }
+        return Promise.reject(error)
+    }
+)
+
 export default axiosInstance
