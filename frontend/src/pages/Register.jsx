@@ -1,6 +1,6 @@
 import { useState } from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Register() {
                 
@@ -21,7 +21,7 @@ export default function Register() {
             "password": password
         }
 
-        axios.post('http://localhost:8080/auth/register', data)
+        axiosInstance.post('/auth/register', data)
              .then(response => {
                 localStorage.setItem('token', response.data.token)
                 

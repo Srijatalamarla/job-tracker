@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import AddJobForm from "../components/AddJobForm";
 import JobList from "../components/JobList";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Jobs({}) {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    
-    const [token] = useState(() => localStorage.getItem('token'))
-
     useEffect(() => {
-        axios.get('http://localhost:8080/jobs', {
-        headers: { "Authorization": `Bearer ${token}` }
-        }).then(response => {
+        axiosInstance.get('/jobs').then(response => {
             setJobs(response.data)
             setLoading(false)
         }).catch(error => {
@@ -29,11 +24,12 @@ export default function Jobs({}) {
 
     return (
         <>
-            <AddJobForm token={token} onJobAdded={(job) => setJobs(prev => [...prev, job])} />
+            <AddJobForm
+                onJobAdded={(job) => setJobs(prev => [...prev, job])} 
+            />
             <JobList 
                 jobs={jobs} 
                 onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
-                token={token}
             />       
         </>
     )

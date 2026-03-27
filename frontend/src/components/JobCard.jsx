@@ -1,14 +1,12 @@
-import axios from "axios"
 import { useState } from "react"
+import axiosInstance from "../api/axiosInstance";
 
-export default function JobCard({ job, token, onJobDeleted }) {
+export default function JobCard({ job, onJobDeleted }) {
 
     const [error, setError] = useState("");
 
     const handleDelete = () => {
-        axios.delete(`http://localhost:8080/jobs/${job.id}`, {
-            headers: { "Authorization": `Bearer ${token}` }
-        }).then(response => {
+        axiosInstance.delete(`/jobs/${job.id}`).then(response => {
             onJobDeleted(job.id)
         }).catch(error => {
             setError(error.message)

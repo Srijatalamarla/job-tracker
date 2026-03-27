@@ -1,6 +1,6 @@
 import { useState } from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Login() {
     
@@ -19,7 +19,7 @@ export default function Login() {
             "password": password
         }
         
-        axios.post('http://localhost:8080/auth/login', data)
+        axiosInstance.post('/auth/login', data)
              .then(response => {
                 localStorage.setItem('token', response.data.token)
 

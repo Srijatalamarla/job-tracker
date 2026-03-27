@@ -1,7 +1,7 @@
 import { useState } from "react"
-import axios from "axios"
+import axiosInstance from "../api/axiosInstance";
 
-export default function AddJobForm({ token, onJobAdded }) {
+export default function AddJobForm({ onJobAdded }) {
 
     const [companyName, setCompanyName] = useState("");
     const [jobTitle, setJobTitle] = useState("");
@@ -18,9 +18,7 @@ export default function AddJobForm({ token, onJobAdded }) {
             "status": status,
         }
 
-        axios.post('http://localhost:8080/jobs', data, {
-            headers: { "Authorization": `Bearer ${token}` }
-        }).then(response => {
+        axiosInstance.post('/jobs', data).then(response => {
             onJobAdded(response.data)
             setCompanyName("")
             setJobTitle("")
