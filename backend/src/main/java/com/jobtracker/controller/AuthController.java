@@ -5,6 +5,7 @@ import com.jobtracker.dto.LoginRequestDTO;
 import com.jobtracker.dto.UserRequestDTO;
 import com.jobtracker.entity.User;
 import com.jobtracker.exception.InvalidCredentialsException;
+import com.jobtracker.exception.UserAlreadyExistsException;
 import com.jobtracker.repository.UserRepository;
 import com.jobtracker.service.JwtService;
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class AuthController {
     @PostMapping("/auth/register")
     public ResponseEntity<AuthResponseDTO> registerUser(@Valid @RequestBody UserRequestDTO userRequest) {
         if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
-            throw new InvalidCredentialsException();
+            throw new UserAlreadyExistsException("Email already exists");
         }
         String passwordHash = passwordEncoder.encode(userRequest.getPassword());
 

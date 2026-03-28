@@ -179,9 +179,11 @@
 
 **Where I got stuck:**
 - Using token as a prop and adding header for every API call
+- Invalid credentials error while registering existing user
 
 **What clicked:**
 - Using a configured axiosInstance with requesta and response interceptors
+- Added UserAlreadyExists Exception in backend
 
 ---
 
