@@ -3,13 +3,17 @@ import JobCard from "./JobCard";
 export default function JobList({ jobs, onJobUpdated, onJobDeleted }) {
     return (
         <>
-            <ul className="list-none p-8">
-                <li className="w-full flex justify-evenly">
-                    <span>Company Name</span>
-                    <span>Job Title</span>
-                    <span>Status</span>
-                </li>
-                {jobs.map((job) => (
+            <table className="w-full p-8">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Job Title</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {jobs.map((job) => (
                     <JobCard
                         key = {job.id}
                         job = {job}
@@ -17,7 +21,8 @@ export default function JobList({ jobs, onJobUpdated, onJobDeleted }) {
                         onJobUpdated={onJobUpdated}
                     />
                 ))}
-            </ul>
+                </tbody>
+            </table>
         </>
     )
 }

@@ -33,63 +33,76 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
 
     return (
         <>
-            <li className="text-xl border-2 rounded-xl border-solid border-black m-4 p-8">
+            <tr className="text-xl border-2 rounded-xl border-solid border-black">
                 {!isEditing ? (
-                    <div className="flex justify-evenly">
-                        <span>{job.companyName}</span>
-                        <span>{job.jobTitle}</span>
-                        <span>{job.status}</span>
-
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={handleDelete}
-                            className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                        >Delete
-                        </button>
-                    </div>
+                    <>
+                        <td className="px-4 py-4 text-gray-800">{job.companyName}</td>
+                        <td className="px-4 py-4 text-gray-800">{job.jobTitle}</td>
+                        <td className="px-4 py-4">
+                            <span className="px-2 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
+                                {job.status}
+                            </span>
+                        </td>
+                        <td>
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
+                            >Delete
+                            </button>
+                        </td>
+                    </>
                  ) : (
-                    <div className="flex justify-evenly">
-                        <input
-                            type="text"
-                            value={editData.companyName}
-                            onChange={(e) => setEditData(prev => ({...prev, companyName: e.target.value}))}
-                        />
-                        <input
-                            type="text"
-                            value={editData.jobTitle}
-                            onChange={(e) => setEditData(prev => ({...prev, jobTitle: e.target.value}))}
-                        />
-                        <select
-                            value={editData.status}
-                            onChange={(e) => setEditData(prev => ({...prev, status: e.target.value}))}
-                        >
-                            <option value="">Select Status</option>
-                            <option value="Applied">Applied</option>
-                            <option value="Interview">Interview</option>
-                            <option value="Rejected">Rejected</option>
-                            <option value="Selected">Selected</option>
-                            <option value="Offered">Offered</option>
-                        </select>
-                        <button
-                            onClick={handleUpdate}
-                            className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                        >
-                            Save
-                        </button>
-                        <button
-                            onClick={() => setIsEditing(false)}
-                            className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                        >
-                            Cancel
-                        </button>
-                    </div>  
+                    <>
+                        <td>
+                            <input
+                                type="text"
+                                value={editData.companyName}
+                                onChange={(e) => setEditData(prev => ({...prev, companyName: e.target.value}))}
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                value={editData.jobTitle}
+                                onChange={(e) => setEditData(prev => ({...prev, jobTitle: e.target.value}))}
+                            />
+                        </td>
+                        <td>
+                            <select
+                                value={editData.status}
+                                onChange={(e) => setEditData(prev => ({...prev, status: e.target.value}))}
+                            >
+                                <option value="">Select Status</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Selected">Selected</option>
+                                <option value="Offered">Offered</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button
+                                onClick={handleUpdate}
+                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
+                            >
+                                Save
+                            </button>
+                            <button
+                                onClick={() => setIsEditing(false)}
+                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
+                            >
+                                Cancel
+                            </button>
+                        </td>
+                    </>  
                 )}
-            </li>
+            </tr>
             {error && <p>{error}</p>}
         </>
     )

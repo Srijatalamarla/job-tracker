@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axiosInstance from "../api/axiosInstance";
 
-export default function AddJobForm({ onJobAdded }) {
+export default function AddJobForm({ onFormClose, onJobAdded }) {
 
     const [companyName, setCompanyName] = useState("");
     const [jobTitle, setJobTitle] = useState("");
@@ -23,44 +23,66 @@ export default function AddJobForm({ onJobAdded }) {
             setCompanyName("")
             setJobTitle("")
             setStatus("")
+            onFormClose()
         }).catch(err => setError(err.message));
     }
     
     return (
         <>
-              <div className="w-1/2 h-1/2 flex flex-col p-8">
-                    <form onSubmit={handleSubmit}>
-                        <div className="flex flex-col">
-                            <label htmlFor="companyName">Company Name</label>
+              <div className="fixed inset-y-0 right-0 bg-white w-1/2 flex flex-col shadow-xl p-2">
+                    <button 
+                        className="font-normal text-2xl px-4 py-2 rounded-full hover:font-medium hover:bg-gray-100 mr-auto"
+                        onClick={onFormClose}
+                    >
+                        x
+                    </button>
+                    <form onSubmit={handleSubmit} className="mt-4 pt-4 px-8 flex flex-col gap-6">
+                        <div className="flex items-center">
+                            <label 
+                                htmlFor="companyName"
+                                className="w-24 text-gray-500"
+                            >
+                                Company Name
+                            </label>
                             <input
                                 id="companyName"
                                 type="text"
-                                placeholder="companyName"
+                                placeholder="company name"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
                             />
                         </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="jobTitle">Job Title</label>
+                        <div className="flex items-center">
+                            <label 
+                                htmlFor="jobTitle"
+                                className="w-24 text-gray-700"
+                            >
+                                Job Title
+                            </label>
                             <input
                                 id="jobTitle"
                                 type="text"
-                                placeholder="jobTitle"
+                                placeholder="job title"
                                 value={jobTitle}
                                 onChange={(e) => setJobTitle(e.target.value)}
-                                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
                             />
                         </div>
-                        <div className="flex flex-col">
-                            <label htmlFor="status">Status</label>
+                        <div className="flex items-center">
+                            <label 
+                                htmlFor="status"
+                                className="w-24 text-gray-700"
+                            >
+                                Status
+                            </label>
                             <select
                                 id="status"
                                 value={status}
                                 onChange={(e) => setStatus(e.target.value)}
-                                className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
                             >
-                                <option value="">Select Status</option>
+                                <option value="">select status</option>
                                 <option value="Applied">Applied</option>
                                 <option value="Interview">Interview</option>
                                 <option value="Rejected">Rejected</option>
@@ -68,8 +90,8 @@ export default function AddJobForm({ onJobAdded }) {
                                 <option value="Offered">Offered</option>
                             </select>
                         </div>
-                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
-                            Submit
+                        <button type="submit" className="mt-6 py-2 text-white rounded-md bg-[#0f1419] hover:bg-[#0f1419]/90 focus:ring-4 focus:outline-none focus:ring-[#0f1419]/50 font-medium">
+                            Save
                         </button>
                     </form>
                     {error && <p>Error: {error}</p>}
