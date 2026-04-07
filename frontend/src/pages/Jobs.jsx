@@ -3,6 +3,7 @@ import AddJobForm from "../components/AddJobForm";
 import JobList from "../components/JobList";
 import axiosInstance from "../api/axiosInstance";
 import Header from "../components/Header";
+import { AnimatePresence } from "framer-motion"
 
 export default function Jobs({}) {
     const [jobs, setJobs] = useState([]);
@@ -49,12 +50,15 @@ export default function Jobs({}) {
                             />
                         </div>
                     </div>
-                    {isFormOpen && 
-                        <AddJobForm
-                            onFormClose={() => setIsFormOpen(false)}
-                            onJobAdded={(job) => setJobs(prev => [...prev, job])}
-                        />
-                    }
+                    <AnimatePresence>
+                        {isFormOpen &&
+                            <AddJobForm
+                                key="add-job-form"
+                                onFormClose={() => setIsFormOpen(false)}
+                                onJobAdded={(job) => setJobs(prev => [...prev, job])}
+                            />
+                        }
+                    </AnimatePresence>
                 </div>
             </div>
         </>

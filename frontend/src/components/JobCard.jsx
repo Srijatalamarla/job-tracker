@@ -1,5 +1,9 @@
 import { useState } from "react"
 import axiosInstance from "../api/axiosInstance";
+import editIcon from "../assets/edit.svg"
+import deleteIcon from "../assets/delete.svg"
+import tickIcon from "../assets/tick.svg"
+import cancelIcon from "../assets/cancel.svg"
 
 export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
 
@@ -33,50 +37,55 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
 
     return (
         <>
-            <tr className="text-xl border-2 rounded-xl border-solid border-black">
+            <tr className="font-medium border-b border-gray-300 py-4">
                 {!isEditing ? (
                     <>
-                        <td className="px-4 py-4 text-gray-800">{job.companyName}</td>
-                        <td className="px-4 py-4 text-gray-800">{job.jobTitle}</td>
-                        <td className="px-4 py-4">
+                        <td className="border-r border-gray-300">{job.companyName}</td>
+                        <td className="border-r border-gray-300 pl-2">{job.jobTitle}</td>
+                        <td className="border-r border-gray-300 pl-2">
                             <span className="px-2 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
                                 {job.status}
                             </span>
                         </td>
                         <td>
-                            <button
-                                onClick={() => setIsEditing(true)}
-                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                            >Delete
-                            </button>
+                            <div className="flex items-center justify-evenly">
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    <img src={editIcon} alt="edit" className="p-1 h-8 object-contain hover:bg-gray-100 rounded-full transition duration-500 ease-in-out" />
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                >
+                                    <img src={deleteIcon} alt="delete" className="p-1 h-8 object-contain hover:bg-gray-100 rounded-full transition duration-500 ease-in-out" />
+                                </button>
+                            </div>
                         </td>
                     </>
                  ) : (
                     <>
-                        <td>
+                        <td className="border-r border-gray-300">
                             <input
                                 type="text"
                                 value={editData.companyName}
                                 onChange={(e) => setEditData(prev => ({...prev, companyName: e.target.value}))}
+                                className="w-full outline-none"
                             />
                         </td>
-                        <td>
+                        <td className="border-r border-gray-300 pl-2">
                             <input
                                 type="text"
                                 value={editData.jobTitle}
                                 onChange={(e) => setEditData(prev => ({...prev, jobTitle: e.target.value}))}
+                                className="w-full outline-none"
+
                             />
                         </td>
-                        <td>
+                        <td className="border-r border-gray-300 pl-2">
                             <select
                                 value={editData.status}
                                 onChange={(e) => setEditData(prev => ({...prev, status: e.target.value}))}
+                                className="w-full outline-none"
                             >
                                 <option value="">Select Status</option>
                                 <option value="Applied">Applied</option>
@@ -87,18 +96,18 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
                             </select>
                         </td>
                         <td>
-                            <button
-                                onClick={handleUpdate}
-                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                            >
-                                Save
-                            </button>
-                            <button
-                                onClick={() => setIsEditing(false)}
-                                className="px-4 py-2 bg-black text-white font-semibold rounded-md shadow-md"
-                            >
-                                Cancel
-                            </button>
+                            <div className="flex items-center justify-evenly">
+                                <button
+                                    onClick={handleUpdate}
+                                >
+                                    <img src={tickIcon} alt="update/save" className="p-1 h-8 object-contain hover:bg-green-100 rounded-full transition duration-500 ease-in-out"/>
+                                </button>
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                >
+                                    <img src={cancelIcon} alt="cancel" className="p-1 h-8 object-contain hover:bg-red-100 rounded-full transition duration-500 ease-in-out" />
+                                </button>
+                            </div>
                         </td>
                     </>  
                 )}

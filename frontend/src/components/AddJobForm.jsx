@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axiosInstance from "../api/axiosInstance";
+import { motion } from "framer-motion";
 
 export default function AddJobForm({ onFormClose, onJobAdded }) {
 
@@ -29,9 +30,15 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
     
     return (
         <>
-              <div className="fixed inset-y-0 right-0 bg-white w-1/2 flex flex-col shadow-xl p-2">
+              <motion.div 
+                initial={{ x: "100%" }}   
+                animate={{ x: 0 }}        
+                exit={{ x: "100%" }}     
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed inset-y-0 right-0 bg-white w-1/2 flex flex-col shadow-xl p-2"
+              >
                     <button 
-                        className="font-normal text-2xl px-4 py-2 rounded-full hover:font-medium hover:bg-gray-100 mr-auto"
+                        className="font-normal text-2xl px-4 py-2 rounded-full hover:bg-gray-100 mr-auto transition duration-500 ease"
                         onClick={onFormClose}
                     >
                         x
@@ -95,7 +102,7 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
                         </button>
                     </form>
                     {error && <p>Error: {error}</p>}
-                </div>
+                </motion.div>
         </>
     )
 }
