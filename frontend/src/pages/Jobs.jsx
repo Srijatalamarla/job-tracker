@@ -43,11 +43,15 @@ export default function Jobs({}) {
                             </button>
                         </div>
                         <div className="mt-4 w-full">
-                            <JobList
-                                jobs={jobs}
-                                onJobUpdated={(updatedJob) => setJobs(prev => prev.map(j => j.id === updatedJob.id ? updatedJob : j))}
-                                onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
-                            />
+                            {
+                                (jobs.length === 0) ?
+                                    <p className="w-full font-bold text-xl my-4 text-center text-gray-500">No jobs yet. Add your first one above.</p> :
+                                    <JobList
+                                        jobs={jobs}
+                                        onJobUpdated={(updatedJob) => setJobs(prev => prev.map(j => j.id === updatedJob.id ? updatedJob : j))}
+                                        onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
+                                    />
+                            }
                         </div>
                     </div>
                     <AnimatePresence>
