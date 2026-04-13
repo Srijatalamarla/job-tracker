@@ -1,13 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Header() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
+    const handleLogout = async () => {
+        try{
+            await axiosInstance.post('/auth/logout', {refreshToken: localStorage.getItem('refreshToken')})
+        } catch(e) {
+            console.error("Logout failed.")
+        }
+        finally {       
+            localStorage.removeItem('token')
+            localStorage.removeItem('refreshToken')
+
+            navigate('/login')
+        }
     }
 
     const ref = useRef();

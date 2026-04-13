@@ -4,6 +4,7 @@ import com.jobtracker.entity.User;
 import com.jobtracker.exception.UserNotFoundException;
 import com.jobtracker.repository.UserRepository;
 import com.jobtracker.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,23 +33,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
-            throws ServletException, IOException {
-
+            throws ServletException, IOException
+    {
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         final String token = authHeader.substring(7);
-        final String email = jwtService.extractEmail(token);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            final String email = jwtService.extractEmail(token);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (email != null && authentication == null) {
-            User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException(email));
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, List.of());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            if (email != null && authentication == null) {
+                User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, List.of());
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+            }
+        }catch (JwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getOutputStream().write("{\"error\": \"Token expired or invalid\"}".getBytes());
+            response.flushBuffer();
+            return;
         }
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/auth/");
     }
 }

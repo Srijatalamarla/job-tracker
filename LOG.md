@@ -202,4 +202,34 @@
 
 ## General Notes
 
-> Anything that doesn't fit a stage
+-   **Problem:** JWT 24 hour expiry, when it expires, suddenly logged out from the session
+
+    **Solution:** Refresh token and access token - implemented random uuid as refresh token for 3 days and jwt as access token for 15 minutes. Can refresh the access token to extend the session.
+
+    - **Where I got stuck:** 
+        - When access token expired, error on backend - JwtExpired and on frontend abrupt log out
+        - When access token expired and refresh hits, no error on backend but logged out on frontend 
+        - When logged out [after refresh token expired], no errors on backend but frontend still shows 401
+        - For every refresh 401 error on console
+    - **What clicked:**
+        - add exception handler in JwtAuthFilter for JwtException
+
+          **WHY** - when token expires, JwtService.extractEmail(token) throws exception -  which filter doesn't catch and exception bubbles up to 500 instead of 401 - which leads frontend interceptor to never see 401 to trigger the refresh flow
+
+        - use axios.post() with refreshToken to hit /refresh instead of axiosInstance ( frontend )
+
+          **WHY** - with axiosInstance, when 401 is caught ( trying to add job or update or ... when access token expired ) and /auth/refresh is called, the request itself goes through axiosInstance request interceptor and again the same expired token gets added. The refresh call might also be triggering the interceptor again, causing an infinite loop or double logout.
+
+        - Add a deleteByToken method instead of validateToken + deleteByUser method
+
+          **WHY** - when validateToken + deleteByUser methods are used, before logout, refresh token is deleted ( through validateToken method call ) and exception is thrown (RefreshTokenExpiredException) [1].
+
+          then again we delete the token using deleteByUser - which is already deleted in previous step ^
+
+          and the call still continues because the [1] exception is caught by frontend and calls /refresh - which hits validateToken method and throws exception - Refresh Token not found - 401 on frontend
+
+          so to eliminate all these, simple new method deleteByToken is used - which finds the token and deletes it
+
+        - Add shouldNotFilter in JwtAuthFilter
+
+          **WHY** - to skip filter /auth routes, so the expired token is never checked

@@ -2,12 +2,15 @@ package com.jobtracker.controller;
 
 import com.jobtracker.dto.AuthResponseDTO;
 import com.jobtracker.dto.LoginRequestDTO;
+import com.jobtracker.dto.RefreshTokenRequestDTO;
 import com.jobtracker.dto.UserRequestDTO;
+import com.jobtracker.entity.RefreshToken;
 import com.jobtracker.entity.User;
 import com.jobtracker.exception.InvalidCredentialsException;
 import com.jobtracker.exception.UserAlreadyExistsException;
 import com.jobtracker.repository.UserRepository;
 import com.jobtracker.service.JwtService;
+import com.jobtracker.service.RefreshTokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +24,13 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
 
-    public AuthController(UserRepository userRepository, JwtService jwtService, BCryptPasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, JwtService jwtService, BCryptPasswordEncoder passwordEncoder, RefreshTokenService refreshTokenService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/auth/register")
@@ -41,7 +46,9 @@ public class AuthController {
         newUser.setPassword(passwordHash);
 
         User newSavedUser = userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponseDTO(jwtService.generateToken(newSavedUser.getEmail())));
+        refreshTokenService.deleteByUser(newSavedUser);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(newSavedUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponseDTO(jwtService.generateToken(newSavedUser.getEmail()), refreshToken.getToken()));
     }
 
     @PostMapping("/auth/login")
@@ -52,6 +59,21 @@ public class AuthController {
         if (!isCorrectPassword) {
             throw new InvalidCredentialsException();
         }
-        return ResponseEntity.ok(new AuthResponseDTO(jwtService.generateToken(loginRequest.getEmail())));
+        refreshTokenService.deleteByUser(user);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+        return ResponseEntity.ok(new AuthResponseDTO(jwtService.generateToken(loginRequest.getEmail()), refreshToken.getToken()));
+    }
+
+    @PostMapping("/auth/refresh")
+    public ResponseEntity<AuthResponseDTO> refresh(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
+        RefreshToken refreshToken = refreshTokenService.validateRefreshToken(refreshTokenRequestDTO.getRefreshToken());
+        String newToken = jwtService.generateToken(refreshToken.getUser().getEmail());
+        return ResponseEntity.ok(new AuthResponseDTO(newToken, refreshToken.getToken()));
+    }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<String> logout(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
+        refreshTokenService.deleteByToken(refreshTokenRequestDTO.getRefreshToken());
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

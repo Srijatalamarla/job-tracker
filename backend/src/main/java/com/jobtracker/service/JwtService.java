@@ -18,7 +18,7 @@ public class JwtService {
     }
 
     public String generateToken(String email) {
-        long expiration = 24 * 60 * 60 * 1000;
+        long expiration = 15 * 60 * 1000;
         return Jwts
                 .builder()
                 .subject(email)

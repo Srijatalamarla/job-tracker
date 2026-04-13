@@ -22,6 +22,7 @@ export default function Login() {
         axiosInstance.post('/auth/login', data)
              .then(response => {
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('refreshToken', response.data.refreshToken)
 
                 navigate('/')
              })

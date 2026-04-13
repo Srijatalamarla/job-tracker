@@ -14,14 +14,23 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
     response => response,
-    error => {
+    async error => {
         //401 - for invalid credentials - on auth routes
         const isAuthRoute = error.config?.url?.includes('/auth/')
 
         //if token expires
         if(error.response?.status === 401 && !isAuthRoute) {
-            localStorage.removeItem('token')
-            window.location.href = '/login'
+            const refreshToken = localStorage.getItem('refreshToken')
+            try{
+                const response = await axios.post('http://localhost:8080/auth/refresh', {refreshToken})
+                error.config.headers.Authorization = `Bearer ${response.data.token}`
+                localStorage.setItem('token', response.data.token)
+                return axiosInstance(error.config)
+            }catch(e) {    
+                localStorage.removeItem('token')
+                localStorage.removeItem('refreshToken')
+                window.location.href = '/login'
+            }
         }
         return Promise.reject(error)
     }

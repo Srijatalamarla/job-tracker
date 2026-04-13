@@ -24,6 +24,7 @@ export default function Register() {
         axiosInstance.post('/auth/register', data)
              .then(response => {
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('refreshToken', response.data.refreshToken)
                 
                 navigate('/')
              })
