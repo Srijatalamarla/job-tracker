@@ -4,6 +4,7 @@ import editIcon from "../assets/edit.svg"
 import deleteIcon from "../assets/delete.svg"
 import tickIcon from "../assets/tick.svg"
 import cancelIcon from "../assets/cancel.svg"
+import StatusBadge from "./StatusBadge";
 
 export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
 
@@ -14,7 +15,7 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
         companyName: job.companyName,
         jobTitle: job.jobTitle,
         status: job.status
-    })
+    });
 
     const handleUpdate = () => {
         axiosInstance.put(`/jobs/${job.id}`, editData)
@@ -43,9 +44,7 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
                         <td className="border-r border-gray-300">{job.companyName}</td>
                         <td className="border-r border-gray-300 pl-2">{job.jobTitle}</td>
                         <td className="border-r border-gray-300 pl-2">
-                            <span className="px-2 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
-                                {job.status}
-                            </span>
+                            <StatusBadge status={job.status} />
                         </td>
                         <td>
                             <div className="flex items-center justify-evenly">
