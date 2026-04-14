@@ -6,6 +6,15 @@ import Header from "../components/Header";
 import { AnimatePresence } from "framer-motion"
 import filterIcon from "../assets/filter.svg"
 
+const statusStyles = {
+    all: "bg-gray-100 text-gray-700",
+    Applied: "bg-blue-100 text-blue-700",
+    Interview: "bg-yellow-100 text-yellow-700",
+    Rejected: "bg-red-100 text-red-700",
+    Selected: "bg-green-100 text-green-700",
+    Offered: "bg-purple-100 text-purple-700",
+};
+
 export default function Jobs({}) {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,7 +34,7 @@ export default function Jobs({}) {
     }, []);
 
     const filteredJobs = (statusFilter === "all") ? jobs : (jobs.filter(job => job.status === statusFilter))
-    console.log(filteredJobs)
+
 
     if(loading) return <p>Loading...</p>
     if (error !== "") return <p>Error: {error}</p>
@@ -41,26 +50,34 @@ export default function Jobs({}) {
                                 <span className="font-medium">Jobs</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <button
-                                    onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
-                                >
-                                    <img src={filterIcon} alt="filter" className="h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out"/>
-                                </button>
-                                {isFilterMenuOpen &&
-                                    <div>
-                                        <select 
-                                            value={statusFilter}
-                                            onChange={(e) => setStatusFilter(e.target.value)}
-                                        >
-                                            <option value="all">All</option>
-                                            <option value="Applied">Applied</option>
-                                            <option value="Interview">Interview</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Selected">Selected</option>
-                                            <option value="Offered">Offered</option>
-                                        </select>
-                                    </div>
-                                }
+                                <div className="relative">
+                                    <button
+                                        onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
+                                    >
+                                        <img src={filterIcon} alt="filter" className="h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out"/>
+                                    </button>
+                                    {isFilterMenuOpen &&
+                                        <div className="absolute right-0 w-32 bg-gray-50 rounded-md shadow-lg transition">
+                                            <ul>
+                                                {Object.keys(statusStyles).map((stat) => (
+                                                    <li className="bg-white px-2">
+                                                        <div className="py-1 border-b border-solid border-gray-100">
+                                                            <button 
+                                                                className={`px-2 py-0.5 rounded-full text-sm font-medium ${statusStyles[stat]}`}
+                                                                onClick={() => {
+                                                                    setStatusFilter(stat)
+                                                                    setIsFilterMenuOpen(false)
+                                                                }}
+                                                            >
+                                                                {stat.charAt(0).toUpperCase() + stat.slice(1).toLowerCase()}
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    }
+                                </div>
                                 <button
                                     onClick={() => setIsFormOpen(true)}
                                     className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
