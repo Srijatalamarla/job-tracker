@@ -5,6 +5,7 @@ import axiosInstance from "../api/axiosInstance";
 import Header from "../components/Header";
 import { AnimatePresence } from "framer-motion"
 import filterIcon from "../assets/filter.svg"
+import Loading from "../components/Loading";
 
 const statusStyles = {
     all: "bg-gray-100 text-gray-700",
@@ -36,7 +37,7 @@ export default function Jobs({}) {
     const filteredJobs = (statusFilter === "all") ? jobs : (jobs.filter(job => job.status === statusFilter))
 
 
-    if(loading) return <p>Loading...</p>
+    if(loading) return <Loading/>
     if (error !== "") return <p>Error: {error}</p>
 
     return (
