@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import userIcon from "../assets/user.svg";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -34,26 +35,26 @@ export default function Header() {
     }, []);
 
     return (
-        <div className="flex h-16 justify-between items-center bg-gray-100 px-6 rounded-xl">
+        <div className="flex h-16 justify-between items-center px-6 rounded-xl bg-slate-50">
             
             <h1 className="font-bold text-2xl">Job Tracker</h1>
 
             <div className="relative" ref={ref}>
                 <button
                     onClick={() => setOpen(prev => !prev)}
-                    className="flex rounded-full focus:outline-none cursor-pointer"
+                    className="flex w-10 h-10 rounded-full overflow-hidden focus:outline-none cursor-pointer bg-gray-600"
                 >
                     <img
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+                        src={userIcon}
                         alt="profile"
-                        className="w-10 h-10 rounded-full"
+                        className="p-1"
                     />
                 </button>
 
                 {open && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg transition">
+                    <div className="absolute right-0 w-40 bg-white rounded-md shadow-lg transition">
                         <button
-                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                             onClick={handleLogout}
                         >
                             Sign out
