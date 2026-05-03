@@ -38,11 +38,11 @@ export default function JobCard({ job, onJobUpdated, onJobDeleted }) {
 
     return (
         <>
-            <tr className="font-medium border-b border-gray-300 py-4">
+            <tr className="font-medium border-b border-gray-300">
                 {!isEditing ? (
                     <>
                         <td className="border-r border-gray-300">{job.companyName}</td>
-                        <td className="border-r border-gray-300 pl-2">{job.jobTitle}</td>
+                        <td className="border-r border-gray-300 pl-2 py-2 lg:py-0">{job.jobTitle}</td>
                         <td className="border-r border-gray-300 pl-2">
                             <StatusBadge status={job.status} />
                         </td>

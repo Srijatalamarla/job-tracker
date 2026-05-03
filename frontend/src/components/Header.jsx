@@ -42,12 +42,11 @@ export default function Header() {
             <div className="relative" ref={ref}>
                 <button
                     onClick={() => setOpen(prev => !prev)}
-                    className="flex w-10 h-10 rounded-full overflow-hidden focus:outline-none cursor-pointer bg-gray-600"
+                    className="flex w-10 h-10 rounded-full overflow-hidden focus:outline-none cursor-pointer"
                 >
                     <img
                         src={userIcon}
                         alt="profile"
-                        className="p-1"
                     />
                 </button>
 

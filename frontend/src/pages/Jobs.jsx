@@ -42,10 +42,10 @@ export default function Jobs({}) {
 
     return (
         <>
-            <div className="flex justify-center px-4">
-                <div className="w-full max-w-6xl mt-4">
+            <div className="flex justify-center px-4 h-screen">
+                <div className="w-full max-w-7xl mt-4">
                     <Header/>
-                    <div className="flex flex-col mt-4 py-4">
+                    <div className="flex flex-col mt-4 py-4 px-6">
                         <div className="flex justify-between items-center">
                             <div>
                                 <span className="font-medium">Jobs</span>
@@ -55,7 +55,7 @@ export default function Jobs({}) {
                                     <button
                                         onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
                                     >
-                                        <img src={filterIcon} alt="filter" className="h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out"/>
+                                        <img src={filterIcon} alt="filter" className={`${isFilterMenuOpen ? "bg-gray-300" : null} h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out cursor-pointer`}/>
                                     </button>
                                     {isFilterMenuOpen &&
                                         <div className="absolute right-0 w-32 bg-gray-50 rounded-md shadow-lg transition">
@@ -79,23 +79,46 @@ export default function Jobs({}) {
                                         </div>
                                     }
                                 </div>
-                                <button
-                                    onClick={() => setIsFormOpen(true)}
-                                    className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-                                >
-                                    + New Job
-                                </button>
+                                    <button
+                                        onClick={() => setIsFormOpen(true)}
+                                        className="focus:outline-none
+                                                /* Mobile styles */
+                                                bg-transparent text-black text-4xl
+                                                flex items-center justify-center hover:bg-gray-100 rounded-full
+                                    
+                                                /* Desktop styles (sm and up): original styled button */
+                                                sm:bg-blue-600 sm:text-white sm:shadow-md
+                                                sm:hover:bg-blue-700 sm:w-auto sm:h-auto
+                                                sm:text-sm
+                                                sm:px-4 sm:py-2 sm:rounded-md"
+                                    >
+                                        <span>+</span>
+                                        <span className="hidden sm:inline ml-1">New Job</span>
+                                    </button>
+                                
                             </div>
                         </div>
                         <div className="mt-4 w-full">
                             {
                                 (filteredJobs.length === 0) ?
-                                    <p className="w-full font-bold text-xl my-4 text-center text-gray-500">No jobs yet. Add your first one above.</p> :
-                                    <JobList
-                                        jobs={filteredJobs}
-                                        onJobUpdated={(updatedJob) => setJobs(prev => prev.map(j => j.id === updatedJob.id ? updatedJob : j))}
-                                        onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
-                                    />
+                                    (
+                                        <div className="flex flex-col justify-center items-center">
+                                            <p className="w-full font-bold text-xl my-4 text-center text-gray-500">Start tracking your job applications.</p>
+                                            <button
+                                                onClick={() => setIsFormOpen(true)}
+                                                className="px-4 py-2 text-black text-2xl font-semibold rounded-full shadow-md hover:bg-black hover:text-white transition duration-500 ease focus:outline-none cursor-pointer"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    )
+                                    :(
+                                        <JobList
+                                            jobs={filteredJobs}
+                                            onJobUpdated={(updatedJob) => setJobs(prev => prev.map(j => j.id === updatedJob.id ? updatedJob : j))}
+                                            onJobDeleted={(id) => setJobs(prev => prev.filter(j => j.id !== id))}
+                                        />
+                                    )
                             }
                         </div>
                     </div>
