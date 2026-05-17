@@ -22,7 +22,8 @@ axiosInstance.interceptors.response.use(
         if(error.response?.status === 401 && !isAuthRoute) {
             const refreshToken = localStorage.getItem('refreshToken')
             try{
-                const response = await axios.post('http://localhost:8080/auth/refresh', {refreshToken})
+                const url = import.meta.env.VITE_API_URL
+                const response = await axios.post(`${url}/auth/refresh`, {refreshToken})
                 error.config.headers.Authorization = `Bearer ${response.data.token}`
                 localStorage.setItem('token', response.data.token)
                 return axiosInstance(error.config)
