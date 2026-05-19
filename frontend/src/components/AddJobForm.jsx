@@ -39,16 +39,16 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
               >
                     <div>
                         <button
-                            className="font-semibold text-2xl px-4 py-2 rounded-full hover:bg-gray-100 mr-auto transition duration-500 ease"
                             onClick={onFormClose}
+                            className="text-black hover:text-gray-700 hover:bg-gray-100 rounded-full w-9 h-9 flex items-center justify-center transition-colors"
                         >
-                            x
+                            ✕
                         </button>
                         <form onSubmit={handleSubmit} className="mt-4 pt-4 px-8 flex flex-col gap-6">
                             <div className="flex items-center">
                                 <label
                                     htmlFor="companyName"
-                                    className="w-24 text-gray-500"
+                                    className="w-24 text-gray-700"
                                 >
                                     Company Name
                                 </label>
@@ -58,7 +58,8 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
                                     placeholder="company name"
                                     value={companyName}
                                     onChange={(e) => setCompanyName(e.target.value)}
-                                    className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
+                                    className="flex-1 py-2 border-b-2 border-gray-300 focus:outline-none focus:border-black transition-colors duration-500"
+                                    required
                                 />
                             </div>
                             <div className="flex items-center">
@@ -74,7 +75,8 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
                                     placeholder="job title"
                                     value={jobTitle}
                                     onChange={(e) => setJobTitle(e.target.value)}
-                                    className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
+                                    className="flex-1 py-2 border-b-2 border-gray-300 focus:outline-none focus:border-black transition-colors duration-500"
+                                    required
                                 />
                             </div>
                             <div className="flex items-center">
@@ -88,9 +90,10 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
                                     id="status"
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
-                                    className="flex-1 py-2 border-b border-gray-300 focus:outline-none focus:border-black"
+                                    className={`${status === "" ? "text-gray-500" : "text-black"} flex-1 py-2 border-b-2 bg-transparent border-gray-300 focus:outline-none focus:border-black transition-colors duration-500`}
+                                    required
                                 >
-                                    <option value="">select status</option>
+                                    <option value="" disabled className="text-gray-700">select status</option>
                                     <option value="Applied">Applied</option>
                                     <option value="Interview">Interview</option>
                                     <option value="Rejected">Rejected</option>
@@ -98,7 +101,7 @@ export default function AddJobForm({ onFormClose, onJobAdded }) {
                                     <option value="Offered">Offered</option>
                                 </select>
                             </div>
-                            <button type="submit" className="mt-6 py-2 text-white rounded-md bg-[#0f1419] hover:bg-[#0f1419]/90 focus:ring-4 focus:outline-none focus:ring-[#0f1419]/50 font-medium">
+                            <button type="submit" className="mt-8 py-3 text-sm font-semibold tracking-widest uppercase text-white rounded-lg bg-gray-900 hover:bg-gray-700 transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 focus:outline-none cursor-pointer">
                                 Save
                             </button>
                         </form>

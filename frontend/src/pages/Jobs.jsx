@@ -52,11 +52,13 @@ export default function Jobs({}) {
                             </div>
                             <div className="flex items-center gap-4">
                                 <div className="relative">
-                                    <button
-                                        onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
-                                    >
-                                        <img src={filterIcon} alt="filter" className={`${isFilterMenuOpen ? "bg-gray-300" : null} h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out cursor-pointer`}/>
-                                    </button>
+                                    <div className="flex items-center">
+                                        <button
+                                            onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
+                                        >
+                                            <img src={filterIcon} alt="filter" className={`${isFilterMenuOpen ? "bg-gray-300" : null} h-10 hover:bg-gray-100 p-2 rounded-md transition duration-500 ease-in-out cursor-pointer`}/>
+                                        </button>
+                                    </div>
                                     {isFilterMenuOpen &&
                                         <div className="absolute right-0 w-32 bg-gray-50 rounded-md shadow-lg transition">
                                             <ul>
@@ -81,8 +83,9 @@ export default function Jobs({}) {
                                 </div>
                                     <button
                                         onClick={() => setIsFormOpen(true)}
-                                        className="focus:outline-none
+                                        className="focus:outline-none cursor-pointer
                                                 /* Mobile styles */
+                                                h-10
                                                 bg-transparent text-black text-4xl
                                                 flex items-center justify-center hover:bg-gray-100 rounded-full
                                     
