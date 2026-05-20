@@ -28,9 +28,7 @@ axiosInstance.interceptors.response.use(
                 localStorage.setItem('token', response.data.token)
                 return axiosInstance(error.config)
             }catch(e) {    
-                localStorage.removeItem('token')
-                localStorage.removeItem('refreshToken')
-                window.location.href = '/login'
+                window.dispatchEvent(new CustomEvent('session-expired'))
             }
         }
         return Promise.reject(error)

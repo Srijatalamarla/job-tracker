@@ -233,3 +233,18 @@
         - Add shouldNotFilter in JwtAuthFilter
 
           **WHY** - to skip filter /auth routes, so the expired token is never checked
+
+
+## New Features
+
+- Session Expired Modal
+  - Warning when session expired - basically refresh token expired and need to login to get a new one
+  - prompts user to login or sign out instead of abrupt page change
+  - updated axiosInterceptor and App.jsx
+  - **Problems faced:**
+    - Identifying which options user can have - stay (continue session), leave, login again
+    - Adding Modal at top layer - in App.jsx
+  - **Solutions**
+    - Continuing the session requires refresh token, which is possible only through login or register, changing the code to refresh the token in other ways violates the security - so this option eliminated
+    - Remaining 2 are necessary - user can either continue session by logging in again or leave by sign out
+    - Added it out of Routes, top of everything, so that in any page it appears - basically only one authenticated page exists - so added in that route only
