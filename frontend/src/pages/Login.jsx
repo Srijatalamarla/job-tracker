@@ -24,7 +24,7 @@ export default function Login() {
                 localStorage.setItem('token', response.data.token)
                 localStorage.setItem('refreshToken', response.data.refreshToken)
 
-                navigate('/')
+                navigate('/jobs')
              })
              .catch(err => {
                 setError(err.response?.data || "Login failed")

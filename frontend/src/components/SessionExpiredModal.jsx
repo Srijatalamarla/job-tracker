@@ -5,8 +5,7 @@ export default function SessionExpiredModal({ isExpired }) {
     const handleSignOut = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('refreshToken')
-        // to be modified as home page
-        window.location.href = '/login'
+        window.location.href = '/'
     }
 
     const handleSignIn = () => {

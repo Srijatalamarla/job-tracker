@@ -5,6 +5,7 @@ import Jobs from "./pages/Jobs"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { useEffect, useState } from "react"
 import SessionExpiredModal from "./components/SessionExpiredModal"
+import Home from "./pages/Home"
 
 export default function App() {
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -17,7 +18,8 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={
+      <Route path="/" element={ <Home/> } />
+      <Route path="/jobs" element={
         <ProtectedRoute>
           <Jobs/>
           <SessionExpiredModal isExpired={sessionExpired} />

@@ -17,7 +17,7 @@ export default function Header() {
             localStorage.removeItem('token')
             localStorage.removeItem('refreshToken')
 
-            navigate('/login')
+            navigate('/')
         }
     }
 
