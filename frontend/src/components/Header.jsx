@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import userIcon from "../assets/user.svg";
+import logo from "../assets/logo-light.svg"
 
 export default function Header() {
     const navigate = useNavigate();
@@ -35,9 +36,12 @@ export default function Header() {
     }, []);
 
     return (
-        <div className="flex h-16 justify-between items-center px-6 rounded-xl bg-slate-50">
+        <div className="flex h-16 justify-between items-center px-6 rounded-xl">
             
-            <h1 className="font-bold text-2xl">Job Tracker</h1>
+            <div className="flex items-center">
+                <img src={logo} alt="logo" className="h-10 w-auto" />
+                <h1 className="font-bold text-2xl">Job Tracker</h1>
+            </div>
 
             <div className="relative" ref={ref}>
                 <button

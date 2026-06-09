@@ -12,7 +12,7 @@ export default function Home() {
                     <div className="flex h-16 justify-between items-center px-6 rounded-xl bg-white">
                                 
                         <div className="flex gap-1 items-center">
-                            <img src={logo} alt="logo"className="bg-transparent" />
+                            <img src={logo} alt="logo"className="h-10" />
                             <h1 className="font-bold text-2xl">Job Tracker</h1>
                         </div>
 

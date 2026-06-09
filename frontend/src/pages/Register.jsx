@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import logo from "../assets/logo-light.svg"
 
 export default function Register() {
                 
@@ -35,9 +36,8 @@ export default function Register() {
         <>
             <div className="w-screen h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-100 to-gray-200 md:p-12 px-4">
                 <div className="max-w-lg w-full flex flex-col px-5 py-8 sm:px-8 rounded-xl bg-white shadow-lg border border-gray-100">
-                    <div className="mb-6 text-center">
-                        <h1 className="text-3xl font-bold tracking-wide">Job Tracker</h1>
-                        <p className="text-sm text-gray-500 mt-1">Your job search, organized.</p>
+                    <div className="mb-6 flex justify-center">
+                        <img src={logo} alt="logo" className="bg-transparent rounded-sm border border-gray-200 h-12 w-auto shadow-md"/>
                     </div>
                     <div className="h-px bg-slate-200 w-full"/>
                     <h2 className="text-lg font-semibold tracking-tight text-center my-4">Create your account</h2>
